@@ -126,7 +126,7 @@ const StudentInfo = (props: {
                 label="Doğum Tarihi"
                 localeText={trTR.components.MuiLocalizationProvider.defaultProps.localeText}
                 format="DD/MM/YYYY"
-                value={dayjs(props.studentState.student.birthDate)}
+                value={dayjs(new Date (props.studentState.student.birthDate))}
                 onChange={(newValue: any) => {
                   props.setStudentState({
                     ...props.studentState,

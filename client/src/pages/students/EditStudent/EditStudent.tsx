@@ -113,7 +113,7 @@ const EditStudents = () => {
         .then((res) => {
           Toast.fire({
             icon: "success",
-            title: "Öğrenci başarıyla güncellendi.",
+            title: res.message,
           });
           navigate("/students/list");
         })

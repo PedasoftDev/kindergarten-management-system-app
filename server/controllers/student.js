@@ -213,3 +213,140 @@ export const getStudent = async (req, res) => {
     });
   }
 };
+
+export const updateStudent = async (req, res) => {
+  const id = req.params.id;
+  const updateStudent = req.body;
+  const student = updateStudent.student;
+  const mother = updateStudent.parent.mother;
+  const father = updateStudent.parent.father;
+  const heir = updateStudent.parent.heir;
+  const other = updateStudent.other;
+
+  
+
+   try {
+    const StudentDb = await Student.findById(id);
+
+    if (!StudentDb) {
+      return res.status(400).json({
+        message: "Öğrenci bulunamadı!",
+        error,
+      });
+    }
+    StudentDb.firstName = student.firstName;
+    StudentDb.lastName = student.lastName;
+    StudentDb.identificationNumber = student.identificationNumber;
+    StudentDb.birthDate = student.birthDate;
+    StudentDb.birthPlace = student.birthPlace;
+    StudentDb.class = student.class;
+    StudentDb.gender = student.gender;
+    StudentDb.nationality = student.nationality;
+    StudentDb.updatedAt = new Date().toISOString();
+    await StudentDb.save();
+
+
+    const MotherDb = await StudentMother.find({
+      studentId: id,
+      })[0]
+      if (!MotherDb) {
+        return res.status(400).json({
+          message: "Anne bulunamadı!",
+          error,
+        });
+      }
+    MotherDb.fullName = mother.fullName;
+    MotherDb.identificationNumber = mother.identificationNumber;
+    MotherDb.phoneNumber = mother.phoneNumber;
+    MotherDb.job = mother.job;
+    MotherDb.address = mother.address;
+    MotherDb.workAddress = mother.workAddress;
+    MotherDb.email = mother.email;
+    MotherDb.isParent = mother.isParent;
+
+    await MotherDb.save();
+    res.status(200).json({
+      message: "Öğrenci güncellendi",
+    });
+
+    const FatherDb = await StudentFather.find({
+      studentId: id,
+    })[0]
+    if (!FatherDb) {
+      return res.status(400).json({
+        message: "Baba bulunamadı!",
+        error,
+      });
+    }
+    FatherDb.fullName = father.fullName;
+    FatherDb.identificationNumber = father.identificationNumber;
+    FatherDb.phoneNumber = father.phoneNumber;
+    FatherDb.job = father.job;
+    FatherDb.address = father.address;
+    FatherDb.workAddress = father.workAddress;
+    FatherDb.email = father.email;
+    FatherDb.isParent = father.isParent;
+  
+    await FatherDb.save();
+    res.status(200).json({
+      message: "Öğrenci güncellendi",
+    });
+
+    const HeirDb = await StudentHeir.find({
+      studentId: id,
+    })[0]
+    if (!HeirDb) {
+      return res.status(400).json({
+        message: "Vasi bulunamadı!",
+        error,
+      });
+    }
+    HeirDb.fullName = heir.fullName;
+    HeirDb.identificationNumber = heir.identificationNumber;
+    HeirDb.phoneNumber = heir.phoneNumber;
+    HeirDb.job = heir.job;
+    HeirDb.address = heir.address;
+    HeirDb.workAddress = heir.workAddress;
+    HeirDb.email = heir.email;
+    HeirDb.isParent = heir.isParent;
+    
+    await HeirDb.save();
+    res.status(200).json({
+      message: "Vasi güncellendi",
+    });
+
+    const OtherDb = await StudentOther.find({
+      studentId: id,
+    })[0]
+    if (!OtherDb) {
+      return res.status(400).json({
+        message: "Diğer bulunamadı!",
+        error,
+      });
+    }
+    OtherDb.bloodGroup = other.bloodGroup;
+    OtherDb.isParentsTogether = other.isParentsTogether;
+    OtherDb.isAllergy = other.isAllergy;
+    OtherDb.allergyType = other.allergyType;
+    OtherDb.isChronicDisease = other.isChronicDisease;
+    OtherDb.chronicDiseaseType = other.chronicDiseaseType;
+    OtherDb.emergencyContactFullName = other.emergencyContactFullName;
+    OtherDb.emergencyContactPhoneNumber = other.emergencyContactPhoneNumber;
+    OtherDb.emergencyContactDegreeOfProximity = other.emergencyContactDegreeOfProximity;
+
+    await OtherDb.save();
+    res.status(200).json({
+      message: "Diğer güncellendi",
+    });
+    
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+      error,
+    });
+  }
+
+};
+
+

@@ -61,7 +61,6 @@ const StudentInfo = (props: {
       display: "flex",
       width: "100%",
       justifyContent: "center",
-
     }}>
       <div style={{
         display: "flex",
